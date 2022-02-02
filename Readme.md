@@ -3,7 +3,9 @@ package](https://github.com/ManasJayanth/esy-packages-template/workflows/Build%2
 
 # esy-libev
 
-`esy-libev` is sample package, [`hello`](https://github.com/esy/test-hello-c), packaged for [`esy`](https://esy.sh/).
+`esy-libev` is an `libev`, packaged for [`esy`](https://esy.sh/).
+
+Based on @anmonteiro's [libev](https://github.com/esy-packages/libev)
 
 ## Why
 `esy` can not only fetch and install Reason and OCaml libraries and tools,

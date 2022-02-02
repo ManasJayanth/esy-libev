@@ -1,7 +1,6 @@
 name: Build and test the esy package
 
 on:
-  - pull_request
   - push
 
 jobs:
@@ -34,4 +33,4 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: release
-          path: package.tar.gz
+          path: _esy-package/readline-8.1

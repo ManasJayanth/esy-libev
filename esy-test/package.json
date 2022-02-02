@@ -1,6 +1,7 @@
 {
   "esy": {
-    "build": "hello"
+    "buildsInSource": true,
+    "build": "sh ./test.sh"
   },
   "dependencies": {
     "esy-libev": "*"

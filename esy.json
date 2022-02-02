@@ -1,18 +1,49 @@
 {
   "name": "esy-libev",
   "version": "4.33.0",
-  "description": "hello packaged for esy",
+  "description": "Libev packaged for esy",
+  "license": "GPLv2",
   "source": "http://dist.schmorp.de/libev/Attic/libev-4.33.tar.gz#sha256:507eb7b8d1015fbec5b935f34ebed15bf346bed04a11ab82b8eee848c4205aea",
   "override": {
-    "build": ["./configure #{os == 'windows' ? '--host x86_64-w64-mingw32': ''}", "make"],
-    "install": "make install",
+    "build": [
+      [
+        "bash",
+        "-c",
+        "#{os == 'windows' ? './configure mingw64 --host x86_64-w64-mingw32 --prefix=$cur__install' : './configure --prefix=$cur__install --disable-dependency-tracking'}"
+      ],
+      ["make"]
+    ],
+    "install": [["make", "install"]],
     "buildsInSource": true,
     "exportedEnv": {
-      "PKG_CONFIG_PATH": {
-        "val": "#{self.lib / 'pkgconfig'}",
+      "LIBEV_LIBS": {
+        "val": "-L#{self.lib} -lev",
         "scope": "global"
+      },
+      "LIBEV_CFLAGS": {
+        "val": "-I#{self.install / 'include'}",
+        "scope": "global"
+      },
+      "LDFLAGS": {
+        "scope": "global",
+        "val": "-L#{self.lib} -lev"
+      },
+      "CPPFLAGS": {
+        "scope": "global",
+        "val": "-I#{self.install / 'include'}"
+      },
+      "LD_LIBRARY_PATH": {
+        "scope": "global",
+        "val": "#{self.lib}:$LD_LIBRARY_PATH"
+      },
+      "LIBRARY_PATH": {
+        "scope": "global",
+        "val": "#{self.lib}:$LIBRARY_PATH"
+      },
+      "CPATH": {
+        "scope": "global",
+        "val": "#{self.install / 'include'}:$CPATH"
       }
-    },
-    "dependencies": {}
+    }
   }
 }
