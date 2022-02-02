@@ -1,5 +1,4 @@
-![Build and test the esy
-package](https://github.com/ManasJayanth/esy-packages-template/workflows/Build%20and%20test%20the%20esy%20package/badge.svg)
+[![Build and test the esy package](https://github.com/ManasJayanth/esy-libev/actions/workflows/workflow.yml/badge.svg)](https://github.com/ManasJayanth/esy-libev/actions/workflows/workflow.yml)
 
 # esy-libev
 
@@ -40,7 +39,7 @@ You can simply run `esy add esy-libev` to install it, or specify it in
 ```json
 {
   "dependencies": {
-    "esy-libev": "esy-packages/esy-libev"
+    "esy-libev": "ManasJayanth/esy-libev:esy.json"
   }
 }
 ```
@@ -51,7 +50,7 @@ To use a specific commit,
 
 ```diff
   "dependencies": {
-+   "esy-libev": "esy-packages/esy-libev#<commit hash>"
++   "esy-libev": "ManasJayanth/esy-libev#<commit hash>"
   }
 ```
 
