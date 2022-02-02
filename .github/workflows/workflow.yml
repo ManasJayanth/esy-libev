@@ -33,4 +33,4 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: release
-          path: _esy-package/readline-8.1
+          path: _esy-package/libev-4.33
