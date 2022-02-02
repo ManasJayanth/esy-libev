@@ -37,6 +37,7 @@ node scripts/package.js
 new_section "Publishing to local NPM"
 cd _esy-package/libev-4.33
 npm publish --registry $REGISTRY_URL
+npm pack
 # npm still looks for auth token See https://github.com/verdaccio/verdaccio/issues/212#issuecomment-308578500
 
 cd ../../esy-test/
