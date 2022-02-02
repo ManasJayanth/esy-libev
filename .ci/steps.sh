@@ -19,24 +19,40 @@ then
     yarn global add verdaccio
 fi
 
-if ! lsof -i :4873 &> /dev/null;
-then
-    new_section "Setting up verdaccio"
-    mkdir -p ~/.config/verdaccio ~/.local/share/verdaccio/storage
-    cp ./.ci/verdaccio-config.yaml ~/.config/verdaccio/config.yaml
-    verdaccio&
-    sleep 1
-fi
+VERDACCIO_PID=$(netstat -ano | grep 4873 | awk '{ print $5 }' | head -n1)
+case $(uname) in
+    CYGWIN*|MINGW*)
+	taskkill.exe -pid "$VERDACCIO_PID" -F
+	;;
+    *)
+	kill "$VERDACCIO_PID" 
+esac
+new_section "Setting up verdaccio"
+verdaccio -c ./.ci/verdaccio-config.yaml &
+sleep 1
+VERDACCIO_PID=$(netstat -ano | grep 4873 | awk '{ print $5 }' | head -n1) # $! doesn't work on Windows
 
 new_section "Packaging for NPM"
 node scripts/package.js 
 new_section "Publishing to local NPM"
-npm publish --registry $REGISTRY_URL $PWD/package.tar.gz
+cd _esy-package/libev-4.33
+npm publish --registry $REGISTRY_URL
+# npm still looks for auth token See https://github.com/verdaccio/verdaccio/issues/212#issuecomment-308578500
 
-cd esy-test/
+cd ../../esy-test/
 export ESY__PREFIX=$HOME/_esy_test/prefix
 rm -rf $ESY__PREFIX
 mkdir -p $ESY__PREFIX
 esy i --npm-registry $REGISTRY_URL
-esy b
+esy b # uild-shell -p esy-readline
+rm -rf esy.lock
+cd ../
 
+case $(uname) in
+    CYGWIN*|MINGW*)
+	taskkill.exe -pid "$VERDACCIO_PID" -F
+	;;
+    *)
+	kill "$VERDACCIO_PID" 
+esac
+rm -rf .ci/verdaccio-storage
